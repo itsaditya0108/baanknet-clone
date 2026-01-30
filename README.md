@@ -3,18 +3,32 @@
 
 
 @echo off
+setlocal
+
+REM ===== CONFIG =====
+set TOMCAT_SERVICE=Tomcat9
+set TOMCAT_WEBAPPS=C:\server\apps\tomcat-auth\webapps
+set WAR_CONTEXT=authapp
+set BUILD_WAR=C:\ProgramData\Jenkins\.jenkins\workspace\auth-service-ci\authapp\target\authapp-0.0.1-SNAPSHOT.war
+
 echo Stopping Tomcat...
-net stop "Apache Tomcat 9.0"
+net stop %TOMCAT_SERVICE%
 
 echo Cleaning old deployment...
-del /f /q "C:\server\apps\tomcat-auth\webapps\auth-service.war"
-rmdir /s /q "C:\server\apps\tomcat-auth\webapps\auth-service"
+del /f /q "%TOMCAT_WEBAPPS%\%WAR_CONTEXT%.war"
+rmdir /s /q "%TOMCAT_WEBAPPS%\%WAR_CONTEXT%"
 
 echo Copying new WAR...
-copy /Y "auth-service\target\auth-service.war" "C:\server\apps\tomcat-auth\webapps\auth-service.war"
+copy /Y "%BUILD_WAR%" "%TOMCAT_WEBAPPS%\%WAR_CONTEXT%.war"
 
 echo Starting Tomcat...
-net start "Apache Tomcat 9.0"
+net start %TOMCAT_SERVICE%
+
+endlocal
+
+
+
+
 
 
 
