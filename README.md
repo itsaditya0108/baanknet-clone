@@ -52,3 +52,10 @@ logging.level.root=INFO
 # JWT (example)
 security.jwt.secret=CHANGE_THIS_SECRET
 security.jwt.expiry=3600
+
+#Actuator
+
+management.endpoints.web.exposure.include=health,info
+management.endpoint.health.show-details=always
+management.server.base-path=/actuator
+
